@@ -1,1 +1,2 @@
-# Running python app
+# Running python app with docker-compose!
+
