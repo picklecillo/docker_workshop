@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  web:
+    build:
+      context: ./app
+      dockerfile: ../docker/web/Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+  worker:
+    build:
+      context: ./app
+      dockerfile: ../docker/worker/Dockerfile
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - C_FORCE_ROOT=true
+    depends_on:
+      - redis
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+  flower:
+    image: mher/flower
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - FLOWER_PORT=8888
+    depends_on:
+      - redis
+    ports:
+      - 8888:8888
+
+volumes:
+  redis_data:
