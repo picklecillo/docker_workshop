@@ -39,8 +39,8 @@ docker run -it alpine sh
 
 ## Crear un contenedor
 ```bash
-docker create --name hello_world alpine:latest sh
-docker start --attach --interactive hello_world /bin/bash
+docker create --name hello_world alpine:latest ls
+docker start --attach --interactive hello_world
 ```
 Run -> creates a container and starts it
 
